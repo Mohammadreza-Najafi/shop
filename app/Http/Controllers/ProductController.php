@@ -19,19 +19,7 @@ class ProductController extends Controller
     public function index()
     {
         $products=Product::query()->get();
-
         return $products;
-
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-
     }
 
     /**
@@ -40,12 +28,29 @@ class ProductController extends Controller
      * @param  \App\Http\Requests\StoreProductRequest  $request
      * @return \Illuminate\Http\Response
      */
-//    public function store(StoreProductRequest $request)
     public function store(Request $request)
     {
+        
+        if ($request->hasFile('photos')) {
 
-        Product::query()->create(["name"=>"book","price"=>123,"availability"=>2,"images"=>collect(1,2,3)->toJson()]);
-        return view("test");
+            $photos =  $request->file('photos');
+
+            foreach($photos as $photo){
+                if ($photo->isValid()) {
+                    $imagesPath[]= $photo->store('public/productImages');
+                }
+            }
+        }
+
+        $nameProduct=$request->name;
+        $brand=$request->brand;
+        $category=$request->category;
+        $price=$request->price;
+        $availability=$request->availability;    
+       
+        Product::query()->create(["name"=>$nameProduct,"price"=>$price,"brand_id"=>$brand,"category_id"=>$category,"available_quantity"=>$availability,"images"=>collect($imagesPath)->toJson()]);
+
+        return back();
     }
 
     /**
@@ -54,27 +59,11 @@ class ProductController extends Controller
      * @param  \App\Models\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function show(Product $product,$id)
+    public function show($id)
     {
-//        return $product;
-//        return view("product.details");
-
         $product=Product::query()->find($id);
-
-        return view("product.details",["product"=>$product]);
-
-
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Product  $product
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Product $product)
-    {
-        //
+        return $product;
+        // return view("product.details",["product"=>$product]);
     }
 
     /**
@@ -84,10 +73,11 @@ class ProductController extends Controller
      * @param  \App\Models\Product  $product
      * @return \Illuminate\Http\Response
      */
-    // public function update(UpdateProductRequest $request, Product $product)
-    // {
-    //     //
-    // }
+    public function update(Request $request)
+    {
+        
+        return 1;
+    }
 
     /**
      * Remove the specified resource from storage.
@@ -95,8 +85,10 @@ class ProductController extends Controller
      * @param  \App\Models\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Product $product)
+    public function destroy(Request $request)
     {
-        //
+        Product::query()->where("id",$request->id)->delete();
+        return back();
     }
+
 }
