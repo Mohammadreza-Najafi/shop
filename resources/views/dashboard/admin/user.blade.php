@@ -90,6 +90,7 @@
                 </div>
             </div>
         </div>
+        
         <div class="card-body p-0">
             <div class="table-responsive">
                 <table class="table table-sm table-striped fs--1 mb-0 overflow-hidden">
@@ -113,11 +114,13 @@
                     @foreach($users as $key =>$user)
 
                         <tr class="btn-reveal-trigger">
+
                             <td class="align-middle py-2" style="width: 28px;">
                                 <div class="form-check fs-0 mb-0 d-flex align-items-center">
                                     <input class="form-check-input" type="checkbox" id="customer-0" data-bulk-select-row="data-bulk-select-row">
                                 </div>
                             </td>
+
                             <td class="name align-middle white-space-nowrap py-2"><a href="../../app/e-commerce/customer-details.html">
                                     <div class="d-flex d-flex align-items-center">
                                         <div class="avatar avatar-xl me-2">
@@ -127,7 +130,9 @@
                                             <h5 class="mb-0 fs--1">{{$user->name}}</h5>
                                         </div>
                                     </div>
-                                </a></td>
+                                </a>
+                            </td>
+
                             <td class="email align-middle py-2"><a href="mailto:ricky@example.com">{{$user->email}}</a></td>
                             <td class="phone align-middle white-space-nowrap py-2"><a href="tel:2012001851">(201) 200-1851</a></td>
                             <td class="address align-middle white-space-nowrap ps-5 py-2">2392 Main Avenue, Penasauka, New Jersey 02139</td>

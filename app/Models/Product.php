@@ -13,7 +13,9 @@ class Product extends Model
         "name",
         "price",
         "available_quantity",
-        "images"
+        "images",
+        "brand_id",
+        "category_id"
     ];
 
     public function discount(): \Illuminate\Database\Eloquent\Relations\HasOne

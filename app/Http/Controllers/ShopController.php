@@ -16,9 +16,10 @@ class ShopController extends Controller
      */
     public function index()
     {
-        $products=Product::query()->get(["id","name","price","available_quantity"]);
-
-//        $discounts=Discount::all('product_id','discount_percentage','final_price');
+        $products=Product::query()->get(["id","name","price","available_quantity","images"]);
+        // $products->images=json_decode($products->images);
+ 
+        $discounts=Discount::all('product_id','discount_percentage','final_price');
 
         $mainCategories=categoryProduct::query()->where("is_main","=",true)->get();
 
@@ -27,15 +28,11 @@ class ShopController extends Controller
 
         return view("main.shop", [
             "products"=>$products,
-//            "discounts"=>$discounts,
+            "discounts"=>$discounts,
             "mainCategories"=>$mainCategories,
             "leastProducts"=>$leastProducts
-            ]);
+        ]);
 
     }
-
-
-
-
 
 }

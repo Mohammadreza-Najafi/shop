@@ -8,7 +8,10 @@ use Illuminate\Http\Request;
 class OrderController extends Controller
 {
     public function index(){
+
        $tracks=Track::query()->get();
-       return $tracks;
+
+       return view("dashboard.admin.order",["tracks"=>$tracks]);
+       
     }
 }

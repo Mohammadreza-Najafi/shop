@@ -83,7 +83,7 @@
 
                     <div class="product__details__pic__item">
                         <img class="product__details__pic__item--large"
-                             src="img/product/details/product-details-1.jpg" alt="">
+                             src="{{\Illuminate\Support\Facades\Storage::url(json_decode($product->images)[0])}}" alt="">
                     </div>
 
                     <div class="product__details__pic__slider owl-carousel">

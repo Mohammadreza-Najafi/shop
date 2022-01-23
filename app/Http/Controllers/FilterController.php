@@ -82,6 +82,10 @@ class FilterController extends Controller
         $category=new \App\Http\Controllers\CategoryController;
         $categories=$category->productsByCategory(categoryProduct::query()->find($id));
 
+        if(!is_array($categories)){
+            $categories=array($categories);
+        }
+        
         foreach ($categories as $category){
             $products[]=Product::query()->where("category_id","=",$category)->get();
         }

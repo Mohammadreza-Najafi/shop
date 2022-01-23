@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\FilterController;
 use App\Models\categoryProduct;
 use App\Models\Discount;
 use App\Models\Product;
@@ -19,37 +20,29 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/',[\App\Http\Controllers\HomeController::class,"index"])->name("home");
 
+
 Route::get("/category/{id}",function ($id){
 
-    $category=new \App\Http\Controllers\CategoryController;
-    $categories=$category->productsByCategory(categoryProduct::query()->find($id));
+    $filterController=new \App\Http\Controllers\FilterController;
 
-    foreach ($categories as $category){
-        $products[]=Product::query()->where("category_id","=",$category)->get();
-    }
-
-    $temp=[];
-    foreach ($products as $product){
-        if (count($product)!=0){
-            foreach ($product as $value){
-                $temp[]=$value;
-            }
-        }
-    }
-
-    $products=$temp;
+    $products = $filterController->limitCategory($id);
 
     $discounts=Discount::all('product_id','discount_percentage','final_price');
+
     $mainCategories=categoryProduct::query()->where("is_main","=",true)->get();
+
+    $leastProducts=Product::orderBy('created_at', 'desc')->get();
+//        ->take(20)
 
     return view("main.shop", [
         "products"=>$products,
         "discounts"=>$discounts,
-        "mainCategories"=>$mainCategories
+        "mainCategories"=>$mainCategories,
+        "leastProducts"=>$leastProducts
     ]);
 });
 
-Route::get("/admin",[\App\Http\Controllers\AdminController::class,"index"]);
+Route::get("/admin",[\App\Http\Controllers\Admin\DashboardController::class,"index"]);
 
 
 Route::get("/admin/discountcode",[\App\Http\Controllers\DiscountCodeController::class,"index"])->name("admin.discountCode");
@@ -77,6 +70,10 @@ Route::get("/admin/payment",function (){
     return view("dashboard.admin.payment");
 })->name("admin.payment");
 
+Route::get("mail",[\App\Http\Controllers\Mail\Create::class,'__invoke'])->name("mail.compose");
+Route::post("mail",[\App\Http\Controllers\Mail\send::class,'__invoke'])->name("mail.send");
+
+
 // Route::get("/admin/product-discount",function (){
 //     $productDiscountController=new \App\Http\Controllers\ProdcutDiscountController();
 //     $productsDiscount=$productDiscountController->index();
@@ -94,7 +91,16 @@ Route::get("/admin/product-discount",[\App\Http\Controllers\ProdcutDiscountContr
 //     return view("dashboard.admin.product",["products"=>$products]);
 // })->name("admin.product");
 
-Route::get("/admin/product",[\App\Http\Controllers\ProductController::class,"index"])->name("admin.product");
+Route::get("/admin/product",[\App\Http\Controllers\Admin\ProductController::class,"index"])->name("admin.product");
+
+// Route::get("/admin/product/{id}",[\App\Http\Controllers\Admin\ProductController::class,"show"])->name("admin.product.details");
+
+Route::post("/admin/product",[\App\Http\Controllers\ProductController::class,"store"])->name("admin.product.store");
+Route::delete("/admin/product",[\App\Http\Controllers\ProductController::class,"destroy"])->name("admin.product.delete");
+Route::put("/admin/product",[\App\Http\Controllers\ProductController::class,"update"])->name("admin.product.update");
+Route::get("/admin/product/edit",[\App\Http\Controllers\Admin\ProductController::class,"edit"])->name("admin.product.edit");
+
+
 
 
 Route::get('/shop',[\App\Http\Controllers\ShopController::class,"index"])->name("shop");
@@ -141,14 +147,14 @@ Route::get('/cart/add',[\App\Http\Controllers\CartController::class,"add"])->nam
 Route::get('/cart/remove',[\App\Http\Controllers\CartController::class,"remove"])->name("cart.remove");
 
 
-Route::get('/checkout/create',[\App\Http\Controllers\CheckoutController::class,"create"])->name("checkout.create");
+Route::get('/checkout/create',[\App\Http\Controllers\CheckoutController::class,"createa"])->name("checkout.createe");
 Route::post('/checkout',[\App\Http\Controllers\CheckoutController::class,"store"])->name("checkout");
 
 
 Route::get('/favorite/{id}',[\App\Http\Controllers\FavoriteController::class,"store"])->name("favorite.toggle");
 //Route::get('/favorite/toggle',[\App\Http\Controllers\FavoriteController::class,"index"])->name("favorite");
 
-Route::get('/product/{id}',[\App\Http\Controllers\ProductController::class,"show"])->name('product.detail');
+Route::get('/product/{id}',[\App\Http\Controllers\User\ProductController::class,"show"])->name('product.detail');
 
 
 
@@ -168,13 +174,21 @@ Route::get("/discount/add",function (){
 });
 
 Route::get('/test',function (){
+
+    // $status=new App\Enums\StatusOrderEnum("onhold");
+    return App\Enums\StatusOrderEnum::COMPLETED();
+
+
+
 //    \App\Models\ProductFeatures::query()->create([Product::find(2),"wsf","swfw"]);
 //    return collect(["color"=>"blue","size"=>"normal"])->toJson();
 
 //    $product=\App\Models\ProductFeatures::query()->whereJsonContains("features->color","red")->get();
 //    return $product;
-    $temp=new \App\Http\Controllers\ShopController();
-    return $temp->limitCategory(1);
+
+    // $temp=new \App\Http\Controllers\ShopController();
+    // return $temp->limitCategory(1);
+    
 //    $category=\App\Models\categoryProduct::query()->find(1);
 //    $test=new \App\Models\Test;
 

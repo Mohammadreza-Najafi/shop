@@ -1,4 +1,4 @@
-@extends("dashboard.admin.layouts.app");
+@extends("dashboard.admin.layouts.app")
 @section("content")
 
     <div class="card mb-3" id="customersTable" data-list="{&quot;valueNames&quot;:[&quot;name&quot;,&quot;email&quot;,&quot;phone&quot;,&quot;address&quot;,&quot;joined&quot;],&quot;page&quot;:10,&quot;pagination&quot;:true}">
@@ -32,39 +32,78 @@
                                         </div>
 
                                         <div class="modal-body">
-                                            <form action="" method="post">
 
+                                            <form action="{{route('admin.product.store')}}" method="post" enctype="multipart/form-data">
+                                                @csrf
                                                 <div class="mb-3">
                                                     <label for="name">Name</label>
-                                                    <input class="form-control" id="name" type="text">
+                                                    <input class="form-control" id="name" type="text" name="name">
                                                 </div>
 
                                                 <div class="mb-3">
-                                                    <label for="emailModal">Email</label>
-                                                    <input class="form-control" id="emailModal" type="email">
+                                                    <label for="brand">brand</label>
+                                                    <input class="form-control" id="brand" type="text" name="brand">
                                                 </div>
 
                                                 <div class="mb-3">
-                                                    <label for="emailModal">phone</label>
-                                                    <input class="form-control" id="emailModal" type="text">
+                                                    <label for="category">category</label>
+                                                    <input class="form-control" id="category" type="text" name="category">
+                                                </div>
+
+                                        
+                                                <div class="mb-3">
+                                                    <label for="price">Price</label>
+                                                    <input class="form-control" id="price" type="text" name="price">
                                                 </div>
 
                                                 <div class="mb-3">
-                                                    <label for="emailModal">password</label>
-                                                    <input class="form-control" id="emailModal" type="password">
+                                                    <label for="availability">availability</label>
+                                                    <input class="form-control" id="availability" type="text" name="availability">
                                                 </div>
 
-                                                <div class="mb-3">
-                                                    <label for="emailModal">password confirm</label>
-                                                    <input class="form-control" id="emailModal" type="password">
-                                                </div>
+                                                
+                                                {{-- <div class="dropzone dropzone-multiple mb-3" id="my-awesome-dropzone" data-dropzone="data-dropzone" > --}}
+                                                    
+                                                    <div class="fallback">
+                                                      <input name="photos[]" type="file" multiple="multiple" />
+                                                    </div>
+{{--     
+                                                    <div class="dz-message" data-dz-message="data-dz-message"> 
+                                                        <img class="me-2" src="../../../assets/img/icons/cloud-upload.svg" width="25" alt="" />Drop your files here</div>
+                                                    <div class="dz-preview dz-preview-multiple m-0 d-flex flex-column">
+    
+                                                      <div class="d-flex media mb-3 pb-3 border-bottom btn-reveal-trigger">
+                                                          <img class="dz-image" src="../../../assets/img/generic/image-file-2.png" alt="..." data-dz-thumbnail="data-dz-thumbnail" />
+    
+                                                        <div class="flex-1 d-flex flex-between-center">
+    
+                                                          <div>
+                                                            <h6 data-dz-name="data-dz-name"></h6>
+                                                            <div class="d-flex align-items-center">
+                                                              <p class="mb-0 fs--1 text-400 lh-1" data-dz-size="data-dz-size"></p>
+                                                              <div class="dz-progress"><span class="dz-upload" data-dz-uploadprogress=""></span></div>
+                                                            </div><span class="fs--2 text-danger" data-dz-errormessage="data-dz-errormessage"></span>
+                                                          </div>
+    
+                                                          <div class="dropdown font-sans-serif">
+                                                            <button class="btn btn-link text-600 btn-sm dropdown-toggle btn-reveal dropdown-caret-none" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="fas fa-ellipsis-h"></span></button>
+                                                            <div class="dropdown-menu dropdown-menu-end border py-2"><a class="dropdown-item" href="#!" data-dz-remove="data-dz-remove">Remove File</a></div>
+                                                          </div>
+    
+                                                        </div>
+                                                      </div>                                            
+                                                    </div>                                                    --}}
+                                                {{-- </div> --}}
+                                                
+                                                <button class="btn btn-primary btn-sm px-4" type="submit">
+                                                    <!-- <span class="fas fa-paper-plane me-2" aria-hidden="true"> </span> Font Awesome fontawesome.com -->create product
+                                                </button>
 
 
                                             </form>
+                                         
 
-                                            <button class="btn btn-primary btn-sm px-4" type="submit">
-                                                <!-- <span class="fas fa-paper-plane me-2" aria-hidden="true"> </span> Font Awesome fontawesome.com -->Create User
-                                            </button>
+                                            
                                         </div>
 
                                     </div>
@@ -86,7 +125,7 @@
                         <tr>
                             <th>
                                 <div class="form-check fs-0 mb-0 d-flex align-items-center">
-                                    <input class="form-check-input" id="checkbox-bulk-customers-select" type="checkbox" data-bulk-select="{&quot;body&quot;:&quot;table-customers-body&quot;,&quot;actions&quot;:&quot;table-customers-actions&quot;,&quot;replacedElement&quot;:&quot;table-customers-replace-element&quot;}" checked="false">
+                                    <input class="form-check-input" id="checkbox-bulk-customers-select" type="checkbox" data-bulk-select="{&quot;body&quot;:&quot;table-customers-body&quot;,&quot;actions&quot;:&quot;table-customers-actions&quot;,&quot;replacedElement&quot;:&quot;table-customers-replace-element&quot;}">
                                 </div>
                             </th>
                             <th>Product</th>
@@ -100,12 +139,12 @@
 
                         <tbody class="list" id="table-customers-body">
 
-                            @foreach($products as $product)
+                            @foreach($products as $key =>$product)
                                 <tr class="btn-reveal-trigger">
 
                                     <td class="align-middle py-2" style="width: 28px;">
                                         <div class="form-check fs-0 mb-0 d-flex align-items-center">
-                                            <input class="form-check-input" type="checkbox" id="customer-0" data-bulk-select-row="data-bulk-select-row" checked="false">
+                                            <input class="form-check-input" type="checkbox" id="customer-0" data-bulk-select-row="data-bulk-select-row" >
                                         </div>
                                     </td>
                                     <td>
@@ -138,13 +177,36 @@
                                             <div class="fw-semi-bold ms-2">41%</div>
                                         </div>
                                     </td>
+
                                     <td class="align-middle white-space-nowrap py-2 text-end">
+
                                         <div class="dropdown font-sans-serif position-static">
+
                                             <button class="btn btn-link text-600 btn-sm dropdown-toggle btn-reveal" type="button" id="customer-dropdown-0" data-bs-toggle="dropdown" data-boundary="window" aria-haspopup="true" aria-expanded="false"><svg class="svg-inline--fa fa-ellipsis-h fa-w-16 fs--1" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="ellipsis-h" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M328 256c0 39.8-32.2 72-72 72s-72-32.2-72-72 32.2-72 72-72 72 32.2 72 72zm104-72c-39.8 0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72zm-352 0c-39.8 0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72z"></path></svg><!-- <span class="fas fa-ellipsis-h fs--1"></span> Font Awesome fontawesome.com --></button>
+
                                             <div class="dropdown-menu dropdown-menu-end border py-0" aria-labelledby="customer-dropdown-0" style="">
-                                                <div class="bg-white py-2"><a class="dropdown-item" href="#!">Edit</a><a class="dropdown-item text-danger" href="#!">Delete</a></div>
+
+                                                <div class="bg-white py-2">
+                                                    {{-- <a class="dropdown-item" href="#!">Edit</a> --}}
+                                                    <form action="{{route("admin.product.edit",['id'=>$product->id])}}" >
+                                                        <button class="dropdown-item" type="submit">Edit</button>
+                                                        
+                                                    </form>
+                                                    
+                                                    <form  method="post"  action="{{route("admin.product.delete",['id'=>$product->id])}}">
+                                                        @method("DELETE")
+                                                        @csrf
+                                                        <button class="dropdown-item text-danger" type="submit">Delete</button>
+                                                    </form>
+                                                    {{-- <a class="dropdown-item text-danger" href="#!">Delete</a> --}}
+                                                </div>
+
                                             </div>
+
+                                            
+
                                         </div>
+
                                     </td>
 
 
@@ -407,6 +469,7 @@
                 <button class="btn btn-sm btn-falcon-default ms-1" type="button" title="Next" data-list-pagination="next"><svg class="svg-inline--fa fa-chevron-right fa-w-10" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="chevron-right" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" data-fa-i2svg=""><path fill="currentColor" d="M285.476 272.971L91.132 467.314c-9.373 9.373-24.569 9.373-33.941 0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941 0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"></path></svg><!-- <span class="fas fa-chevron-right"></span> Font Awesome fontawesome.com --></button>
             </div>
         </div>
+        <script src="vendors/dropzone/dropzone.min.js"></script>
 @endsection
 
 

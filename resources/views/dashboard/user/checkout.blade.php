@@ -102,7 +102,7 @@
                 <div class="card-body">
 
 
-                  <form method="post" action="{{route("checkout")}}">
+                  <form method="post" action="{{route("checkout",["trackId"=>$trackId])}}">
                       @csrf
                     <div class="form-check mb-0">
                       <input class="form-check-input" type="radio" value="" id="credit-card" checked="checked" name="payment-method" />
@@ -173,4 +173,6 @@
     <!-- ===============================================-->
     <!--    End of Main Content-->
     <!-- ===============================================-->
-@endsection
+
+@endsection 
+{{-- moh --}}

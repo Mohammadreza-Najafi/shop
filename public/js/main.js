@@ -9,6 +9,8 @@
 
 'use strict';
 
+// const { forEach } = require("lodash");
+
 (function ($) {
 
     /*------------------
@@ -196,7 +198,34 @@
         }).done(
             function(data, status){
                 // alert("Data: " + data + "\nStatus: " + status);
-                document.write(data);
+                const products=document.getElementById("products");
+
+                var output="";
+                $.each(JSON.parse(data), function(i, obj) {
+                    output+=`
+                    <div class="col-lg-4 col-md-6 col-sm-6">
+                        <div class="product__item">  
+                            <div class="product__item__pic set-bg" data-setbg="">
+                                <ul class="product__item__pic__hover">
+                                    <li><a href="http://127.0.0.1:8000/favorite/${obj.id}"><i class="fa fa-heart"></i></a></li>
+                                    <li><a href="http://127.0.0.1:8000/favorite/${obj.id}"><i class="fa fa-shopping-cart"></i></a></li>
+                                </ul>
+                            </div>
+                            <div class="product__item__text">                                
+                                <h6><a href="#"></a></h6>
+                                <h5></h5>
+                            </div>
+                        </div>
+                    </div>
+                    `;
+                  });
+
+    
+
+                products.innerHTML=output;
+                // console.log="yes";
+                // document.write(data);
+                // document.write(data);
             }
         );
 
@@ -220,8 +249,33 @@
             }
         }).done(
             function(data, status){
-                // document.clear();
-                document.write(data);
+                const products=document.getElementById("products");
+
+                var output="";
+                $.each(JSON.parse(data), function(i, obj) {
+                    output+=`
+                    <div class="col-lg-4 col-md-6 col-sm-6">
+                        <div class="product__item">  
+                            <div class="product__item__pic set-bg" data-setbg="">
+                                <ul class="product__item__pic__hover">
+                                    <li><a href="http://127.0.0.1:8000/favorite/${obj.id}"><i class="fa fa-heart"></i></a></li>
+                                    <li><a href="http://127.0.0.1:8000/favorite/${obj.id}"><i class="fa fa-shopping-cart"></i></a></li>
+                                </ul>
+                            </div>
+                            <div class="product__item__text">                                
+                                <h6><a href="#"></a></h6>
+                                <h5></h5>
+                            </div>
+                        </div>
+                    </div>
+                    `;
+                  });
+
+    
+
+                products.innerHTML=output;
+                // console.log="yes";
+                // document.write(data);
             }
         );
     });
@@ -236,6 +290,33 @@
             }
         }).done(
             function(data, status){
+                const products=document.getElementById("products");
+                
+                var output="";
+                $.each(JSON.parse(data), function(i, obj) {
+                    output+=`
+                    <div class="col-lg-4 col-md-6 col-sm-6">
+
+                        <div class="product__item">  
+                            <div class="product__item__pic set-bg" data-setbg="">
+                                <ul class="product__item__pic__hover">
+                                    <li><a href="http://127.0.0.1:8000/favorite/${obj.id}"><i class="fa fa-heart"></i></a></li>
+                                    <li><a href="http://127.0.0.1:8000/favorite/${obj.id}"><i class="fa fa-shopping-cart"></i></a></li>
+                                </ul>
+                            </div>
+                            <div class="product__item__text">                                
+                                <h6><a href="#"></a></h6>
+                                <h5></h5>
+                            </div>
+                        </div>
+
+                    </div>
+                    `;
+                  });
+
+    
+
+                products.innerHTML=output;
                 // alert("Data: " + data + "\nStatus: " + status);
                 document.write(data);
             }

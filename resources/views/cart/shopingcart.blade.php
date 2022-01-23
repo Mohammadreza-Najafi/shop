@@ -156,7 +156,7 @@
                             <li>Subtotal <span>$454.98</span></li>
                             <li>Total <span>{{$total}}</span></li>
                         </ul>
-                        <a href="{{route("checkout.create")}}" class="primary-btn">PROCEED TO CHECKOUT</a>
+                        <a href="{{route("checkout.createe")}}" class="primary-btn">PROCEED TO CHECKOUT</a>
                     </div>
                 </div>
             </div>

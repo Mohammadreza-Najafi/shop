@@ -32,8 +32,11 @@ class CartController extends Controller
 
         }
 
-
+        // dd(serialize($this)->);
+        // session("shoppingCart",serialize($this));
+        session()->push("shoppingCart",serialize($this));
         return view("cart.shopingcart",["items"=>$this->items,"total"=>$this->total]);
+        
     }
 
     public function add(Request $request): \Illuminate\Http\RedirectResponse

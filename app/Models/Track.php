@@ -12,7 +12,8 @@ class Track extends Model
     protected $fillable = [
         "user_id",
         "item",
-        "status"
+        "status",
+        
     ];
 
 
